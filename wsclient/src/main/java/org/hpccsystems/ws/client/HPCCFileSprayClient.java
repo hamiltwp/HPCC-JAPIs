@@ -746,7 +746,7 @@ public class HPCCFileSprayClient extends DataSingleton
         uploadurlbuilder += "&NetAddress=" + dropZone.getNetAddress();
         uploadurlbuilder += "&Path=" + dropZone.getPath();
         uploadurlbuilder += "&OS=" + (Utils.currentOSisLinux() ? "1" : "0");
-        WritableByteChannel outchannel = null;
+        WritableByteChannel outChannel = null;
         FileChannel inChannel = null;
         OutputStream output = null;
         InputStream input = null;
@@ -769,7 +769,7 @@ public class HPCCFileSprayClient extends DataSingleton
 
             aFile = new RandomAccessFile(uploadFile.getAbsolutePath(), "rw");
             inChannel = aFile.getChannel();
-            outchannel = Channels.newChannel(output);
+            outChannel = Channels.newChannel(output);
             try
             {
                 while (inChannel.read(buffer) > 0)
@@ -777,7 +777,7 @@ public class HPCCFileSprayClient extends DataSingleton
                     buffer.flip();
                     while (buffer.hasRemaining())
                     {
-                        outchannel.write(buffer);
+                        outChannel.write(buffer);
                     }
                 }
             }
@@ -814,8 +814,8 @@ public class HPCCFileSprayClient extends DataSingleton
 
             try
             {
-                if(outchannel.isOpen()){
-                    outchannel.close();
+                if(outChannel.isOpen()){
+                    outChannel.close();
                 }
                 if(inChannel.isOpen()){
                     inChannel.close();
