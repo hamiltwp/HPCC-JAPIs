@@ -814,8 +814,12 @@ public class HPCCFileSprayClient extends DataSingleton
 
             try
             {
-                outchannel.close();
-                inChannel.close();
+                if(outchannel.isOpen()){
+                    outchannel.close();
+                }
+                if(inChannel.isOpen()){
+                    inChannel.close();
+                }
                 output.close();
                 input.close();
                 aFile.close();
